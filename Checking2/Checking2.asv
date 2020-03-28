@@ -1,0 +1,25 @@
+clc;
+clear all;
+close all;
+
+x=imread('D:\\Sem 6\\IP\\FabricDefectDetection\\Working 3\\1.JPG');
+x=rgb2gray(x);
+level = graythresh(x);
+H1 = im2bw(x,level);
+
+SE = strel('square', 4);
+op1 = imerode(H1, SE);
+op2 = imdilate(op1, SE);
+
+SE1 = strel('diamond', 3);
+op11 = imerode(op2, SE1);
+
+SE2 = strel('disk', 3, 0);
+op21 = imdilate(op11, SE2);
+op31 = imerode(op21, SE2);
+op41 = imdilate(op31, SE2);
+
+op41 = imdilate(op31, SE2);
+
+
+y = imfuse(x,op41);
